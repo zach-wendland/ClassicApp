@@ -6,6 +6,11 @@
  * @returns {number} Monthly payment amount
  */
 export function calculateMonthlyPayment(principal, annualRate, years) {
+  // Defensive check for invalid inputs
+  if (!Number.isFinite(principal) || !Number.isFinite(annualRate) || !Number.isFinite(years)) {
+    throw new Error('Invalid input: All parameters must be finite numbers');
+  }
+
   const monthlyRate = annualRate / 100 / 12;
   const numberOfPayments = years * 12;
 
@@ -84,18 +89,33 @@ export function generateAmortizationSchedule(principal, annualRate, years, month
  * @returns {Object} Validation result with isValid flag and error message
  */
 export function validateInputs(principal, annualRate, years) {
-  if (!principal || principal <= 0) {
+  // Check for invalid numeric values (NaN, Infinity, etc.)
+  if (!Number.isFinite(principal)) {
+    return { isValid: false, error: 'Loan amount must be a valid number' };
+  }
+
+  if (!Number.isFinite(annualRate)) {
+    return { isValid: false, error: 'Interest rate must be a valid number' };
+  }
+
+  if (!Number.isFinite(years)) {
+    return { isValid: false, error: 'Loan term must be a valid number' };
+  }
+
+  // Check for positive values
+  if (principal <= 0) {
     return { isValid: false, error: 'Loan amount must be greater than 0' };
   }
 
-  if (annualRate === null || annualRate === undefined || annualRate < 0) {
+  if (annualRate < 0) {
     return { isValid: false, error: 'Interest rate must be 0 or greater' };
   }
 
-  if (!years || years <= 0) {
+  if (years <= 0) {
     return { isValid: false, error: 'Loan term must be greater than 0' };
   }
 
+  // Check for reasonable upper limits
   if (principal > 100000000) {
     return { isValid: false, error: 'Loan amount seems too large' };
   }

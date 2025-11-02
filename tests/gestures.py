@@ -103,6 +103,7 @@ def validate_swipe(touch_data, options=None):
 
     is_valid = (
         distance >= options['minSwipeDistance'] and
+        duration >= 0 and  # Reject negative durations
         duration <= options['maxSwipeTime'] and
         direction is not None
     )

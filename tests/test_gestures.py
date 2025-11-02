@@ -328,6 +328,32 @@ class TestValidateSwipe(unittest.TestCase):
         self.assertTrue(result['isValid'])
         self.assertEqual(result['distance'], 500.0)
 
+    def test_negative_duration_rejected(self):
+        """Regression test: Negative duration must be rejected"""
+        touch_data = {
+            'start': {'x': 0, 'y': 0},
+            'end': {'x': 100, 'y': 0},
+            'startTime': 500,
+            'endTime': 100  # End before start
+        }
+        result = validate_swipe(touch_data)
+
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['duration'], -400)
+
+    def test_zero_duration_accepted(self):
+        """Test that zero duration (instant swipe) is accepted"""
+        touch_data = {
+            'start': {'x': 0, 'y': 0},
+            'end': {'x': 100, 'y': 0},
+            'startTime': 100,
+            'endTime': 100
+        }
+        result = validate_swipe(touch_data)
+
+        self.assertTrue(result['isValid'])
+        self.assertEqual(result['duration'], 0)
+
 
 if __name__ == '__main__':
     unittest.main()

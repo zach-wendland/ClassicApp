@@ -213,5 +213,61 @@ class TestValidateInputs(unittest.TestCase):
         self.assertIsNone(result['error'])
 
 
+class TestSecurityVulnerabilities(unittest.TestCase):
+    """Security regression tests for discovered vulnerabilities"""
+
+    def test_infinity_principal_rejected(self):
+        """Regression test: Infinity principal must be rejected"""
+        result = validate_inputs(float('inf'), 5, 30)
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Loan amount must be a valid number')
+
+    def test_infinity_rate_rejected(self):
+        """Regression test: Infinity rate must be rejected"""
+        result = validate_inputs(200000, float('inf'), 30)
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Interest rate must be a valid number')
+
+    def test_infinity_years_rejected(self):
+        """Regression test: Infinity years must be rejected"""
+        result = validate_inputs(200000, 5, float('inf'))
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Loan term must be a valid number')
+
+    def test_nan_principal_rejected(self):
+        """Regression test: NaN principal must be rejected"""
+        result = validate_inputs(float('nan'), 5, 30)
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Loan amount must be a valid number')
+
+    def test_nan_rate_rejected(self):
+        """Regression test: NaN rate must be rejected"""
+        result = validate_inputs(200000, float('nan'), 30)
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Interest rate must be a valid number')
+
+    def test_nan_years_rejected(self):
+        """Regression test: NaN years must be rejected"""
+        result = validate_inputs(200000, 5, float('nan'))
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Loan term must be a valid number')
+
+    def test_calculation_rejects_infinity(self):
+        """Regression test: Calculation functions reject Infinity"""
+        with self.assertRaises(ValueError):
+            calculate_monthly_payment(float('inf'), 5, 30)
+
+    def test_calculation_rejects_nan(self):
+        """Regression test: Calculation functions reject NaN"""
+        with self.assertRaises(ValueError):
+            calculate_monthly_payment(float('nan'), 5, 30)
+
+    def test_negative_infinity_rejected(self):
+        """Test that negative infinity is also rejected"""
+        result = validate_inputs(float('-inf'), 5, 30)
+        self.assertFalse(result['isValid'])
+        self.assertEqual(result['error'], 'Loan amount must be a valid number')
+
+
 if __name__ == '__main__':
     unittest.main()

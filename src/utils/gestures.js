@@ -86,6 +86,7 @@ export function validateSwipe(touchData, options = DEFAULT_OPTIONS) {
 
   const isValid =
     distance >= options.minSwipeDistance &&
+    duration >= 0 &&  // Reject negative durations
     duration <= options.maxSwipeTime &&
     direction !== null;
 
