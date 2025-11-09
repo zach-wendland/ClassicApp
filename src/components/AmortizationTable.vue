@@ -50,95 +50,82 @@ export default {
 
 <style scoped>
 .amortization-table {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 h2 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 20px;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
+  color: #0f172a;
 }
 
 .table-container {
   overflow-x: auto;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
+  border-radius: 20px;
+  border: 1px solid #eceef3;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 #f8fafc;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
 }
 
 thead {
-  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-  color: white;
+  background: #f8fafc;
+  color: #0f172a;
 }
 
 th {
-  padding: 15px 10px;
+  padding: 16px 12px;
   text-align: right;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  background: #2c3e50;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #e4e7ec;
 }
 
 th:first-child {
-  text-align: center;
+  text-align: left;
 }
 
 td {
-  padding: 12px 10px;
+  padding: 14px 12px;
   text-align: right;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid #f1f3f8;
+  font-variant-numeric: tabular-nums;
 }
 
 td:first-child {
-  text-align: center;
+  text-align: left;
   font-weight: 600;
-  color: #7f8c8d;
+  color: #475467;
 }
 
-tbody tr:hover {
-  background-color: #f8f9fa;
+tbody tr:last-child td {
+  border-bottom: none;
+  background: #f0fdf4;
+  color: #14532d;
 }
 
-tbody tr:last-child {
-  background-color: #e8f5e9;
-  font-weight: 600;
+tbody tr:hover td {
+  background: #f9fafb;
 }
 
 .table-info {
-  text-align: center;
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #667085;
 }
 
 @media (max-width: 600px) {
-  .amortization-table {
-    padding: 15px 10px;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
   th,
   td {
-    padding: 10px 5px;
+    padding: 12px 8px;
     font-size: 0.85rem;
-  }
-
-  th:first-child,
-  td:first-child {
-    padding: 10px 8px;
   }
 }
 </style>
+

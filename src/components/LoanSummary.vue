@@ -13,6 +13,11 @@
         <div class="value">${{ formatCurrency(loanInfo.principal) }}</div>
       </div>
 
+      <div v-if="loanInfo.includeSalesTax" class="summary-card">
+        <div class="label">Financed Amount (incl. Sales Tax)</div>
+        <div class="value">${{ formatCurrency(loanInfo.financedPrincipal) }}</div>
+      </div>
+
       <div class="summary-card">
         <div class="label">Interest Rate</div>
         <div class="value">{{ loanInfo.annualRate }}%</div>
@@ -21,6 +26,16 @@
       <div class="summary-card">
         <div class="label">Loan Term</div>
         <div class="value">{{ loanInfo.years }} years</div>
+      </div>
+
+      <div v-if="loanInfo.includeSalesTax && loanInfo.stateCode" class="summary-card">
+        <div class="label">Sales Tax Rate ({{ loanInfo.stateCode }})</div>
+        <div class="value">{{ (loanInfo.taxRate * 100).toFixed(2) }}%</div>
+      </div>
+
+      <div v-if="loanInfo.includeSalesTax" class="summary-card">
+        <div class="label">Sales Tax Amount</div>
+        <div class="value">${{ formatCurrency(loanInfo.taxAmount) }}</div>
       </div>
 
       <div class="summary-card">
@@ -59,79 +74,67 @@ export default {
 
 <style scoped>
 .loan-summary {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 h2 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 25px;
-  font-size: 1.6rem;
+  text-align: left;
+  color: #0f172a;
+  font-size: 1.8rem;
 }
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
 }
 
 .summary-card {
-  background: white;
-  border: 2px solid #ecf0f1;
-  border-radius: 12px;
+  border-radius: 20px;
+  border: 1px solid #e4e7ec;
   padding: 20px;
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.summary-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 140px;
 }
 
 .summary-card.highlight {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  color: white;
-  border: none;
   grid-column: span 2;
+  background: #111827;
+  color: white;
+  border-color: #111827;
 }
 
 .label {
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-  opacity: 0.8;
-  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #475467;
 }
 
 .summary-card.highlight .label {
-  opacity: 0.95;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .value {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .summary-card.highlight .value {
-  font-size: 2.5rem;
   color: white;
+  font-size: 2.5rem;
 }
 
-@media (max-width: 600px) {
-  .loan-summary {
-    padding: 15px;
-  }
-
+@media (max-width: 768px) {
   h2 {
-    font-size: 1.4rem;
-  }
-
-  .summary-grid {
-    grid-template-columns: 1fr;
+    font-size: 1.5rem;
   }
 
   .summary-card.highlight {

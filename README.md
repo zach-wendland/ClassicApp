@@ -4,12 +4,13 @@ A simple, mobile-friendly amortization calculator built with Vue.js. Calculate y
 
 ## Features
 
-- Clean, intuitive interface
+- Clean, card-based UI with high-contrast typography
 - Mobile-responsive design
 - Real-time loan calculations
 - Detailed amortization schedule
-- No backend required - runs entirely in browser
+- Live mortgage rate snapshot powered by FRED (with safe fallback)
 - Input validation and error handling
+- Optional state sales tax inclusion (API-ready with static fallback)
 
 ## Tech Stack
 
@@ -70,6 +71,35 @@ npm run dev
 
 The app will be available at `http://localhost:3000`
 
+### Sales Tax (Optional)
+
+You can optionally include state sales tax in the financed amount:
+
+- Use the UI checkbox and select a state.
+- By default, the app uses a static fallback for base state tax rates (no local taxes).
+- To enable a provider (e.g., TaxJar), set environment variables and rebuild.
+
+Environment variables (create a `.env` file):
+
+```
+VITE_TAX_API_PROVIDER=taxjar
+VITE_TAXJAR_API_KEY=your_api_key_here
+```
+
+Notes:
+- Provider usage is best-effort in this sample and may require adapting endpoints per provider docs.
+- If the API fails or is not configured, the static fallback is used.
+
+### Live Mortgage Rates (Optional)
+
+To surface current 30-year, 15-year, and 5/1 ARM mortgage averages inside the hero panel, supply a FRED API key:
+
+```
+VITE_FRED_API_KEY=your_fred_api_key
+```
+
+Without a key the app falls back to baked-in sample data so the UI still renders.
+
 ### Building for Production
 
 Create a production build:
@@ -86,16 +116,15 @@ npm run preview
 
 The project includes comprehensive Python unit tests for all calculation functions.
 
-Run the tests:
+Run the JavaScript unit tests (Vitest):
+```bash
+npm test
+```
+
+Python parity tests remain available:
 ```bash
 cd tests
 python test_calculator.py
-```
-
-Run tests with verbose output:
-```bash
-cd tests
-python test_calculator.py -v
 ```
 
 ## How to Use
@@ -104,6 +133,7 @@ python test_calculator.py -v
    - **Loan Amount**: The total amount you're borrowing
    - **Interest Rate**: Annual interest rate (as a percentage)
    - **Loan Term**: Number of years to repay the loan
+   - (Optional) **State + Include Sales Tax**: Adds base state sales tax to the financed amount
 
 2. Click **Calculate** to see:
    - Your monthly payment amount
