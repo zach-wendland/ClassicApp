@@ -1,21 +1,29 @@
 {
-  "name": "amortization-calculator",
-  "version": "1.0.0",
-  "description": "Simple mobile-friendly amortization calculator built with Vue.js",
+  "name": "pro-loan-calculator",
+  "version": "3.0.0",
+  "description": "Professional loan analysis suite with advanced features and beautiful visualizations",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "keywords": ["amortization", "calculator", "loan", "vue"],
+  "keywords": ["amortization", "calculator", "loan", "finance", "professional", "charts"],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "chart.js": "^4.4.0",
+    "vue-chartjs": "^5.2.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.6.0",
+    "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.3.4",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "tailwindcss": "^3.3.3",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.29"
   }
 }
